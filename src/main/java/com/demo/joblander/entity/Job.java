@@ -4,10 +4,13 @@ import com.demo.joblander.entity.enums.JobStatus;
 import com.demo.joblander.entity.enums.JobType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "jobs")
@@ -32,6 +35,8 @@ public class Job {
     private String location;
     private String salary;
 
+    private List<String> requiredSkills = new ArrayList<>(); // 'JAVA', 'DISCRETE-MATH'
+
     @Enumerated(EnumType.STRING)
     private JobType jobType;          // FULL_TIME, PART_TIME, REMOTE, CONTRACT
 
@@ -44,4 +49,7 @@ public class Job {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime deadline;
 }
