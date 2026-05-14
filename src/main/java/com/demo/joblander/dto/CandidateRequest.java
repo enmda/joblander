@@ -25,9 +25,14 @@ public class CandidateRequest {
     private String linkedInUrl;
     private String portfolioUrl;
 
+    @Builder.Default
     private List<String> workExperiences = new ArrayList<>();
+    @Builder.Default
     private List<String> educations = new ArrayList<>();
+    @Builder.Default
     private List<String> skills = new ArrayList<>();
+    @Builder.Default
     private List<String> languages = new ArrayList<>();
+    @Builder.Default
     private List<String> certifications = new ArrayList<>();
 }

@@ -4,7 +4,6 @@ import com.demo.joblander.entity.enums.JobStatus;
 import com.demo.joblander.entity.enums.JobType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -35,6 +34,10 @@ public class Job {
     private String location;
     private String salary;
 
+    @ElementCollection
+    @CollectionTable(name = "job_skills", joinColumns = @JoinColumn(name = "job_id"))
+    @Column(name = "skill")
+    @Builder.Default
     private List<String> requiredSkills = new ArrayList<>(); // 'JAVA', 'DISCRETE-MATH'
 
     @Enumerated(EnumType.STRING)
