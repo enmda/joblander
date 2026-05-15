@@ -43,6 +43,7 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
     @Column(nullable = false)
+    @Builder.Default
     private boolean enabled = true;
 
     @CreationTimestamp
