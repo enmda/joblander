@@ -5,6 +5,7 @@ import com.demo.joblander.dto.CandidateResponse;
 import com.demo.joblander.service.CandidateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,14 @@ import java.util.UUID;
 public class CandidateController {
 
     private final CandidateService candidateService;
+
+    @PostMapping
+    public ResponseEntity<CandidateResponse> create(
+            @RequestParam UUID userId,
+            @Valid @RequestBody CandidateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(candidateService.createCandidate(userId, request));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<CandidateResponse> getById(@PathVariable UUID id) {

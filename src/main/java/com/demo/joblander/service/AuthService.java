@@ -58,7 +58,7 @@ public class AuthService {
         User user = userRepository.findByUsername(req.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Invalidate old refresh tokens
+        
         refreshTokenRepository.deleteByUser(user);
 
         return buildAuthResponse(user);
@@ -78,7 +78,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .accessToken(newAccessToken)
-                .refreshToken(token) // reuse same refresh token
+                .refreshToken(token) 
                 .username(user.getUsername())
                 .roles(user.getRoles().stream().map(Role::name).collect(Collectors.toSet()))
                 .build();

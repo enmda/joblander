@@ -12,8 +12,8 @@ import java.util.UUID;
 public class ApplicationResponse {
 
     private Long id;
-    private UUID applicantId;        // UUID not Long
-    private String applicantUsername;// useful to include
+    private UUID applicantId;        
+    private String applicantUsername;
     private Long jobId;
     private String jobTitle;
     private String coverLetter;
