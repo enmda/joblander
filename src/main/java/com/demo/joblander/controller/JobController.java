@@ -22,7 +22,7 @@ public class JobController {
     @PostMapping
     public ResponseEntity<JobResponse> create(
             @Valid @RequestBody JobRequest request,
-            @RequestParam UUID userId) {          // UUID
+            @RequestParam UUID userId) {          
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(jobService.createJob(request, userId));
     }

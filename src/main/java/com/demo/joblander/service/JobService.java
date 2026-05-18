@@ -21,7 +21,7 @@ public class JobService {
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
 
-    public JobResponse createJob(JobRequest request, UUID userId) {  // UUID
+    public JobResponse createJob(JobRequest request, UUID userId) {  
         User poster = userRepository.findById(userId)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
 

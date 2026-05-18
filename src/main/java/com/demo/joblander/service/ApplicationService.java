@@ -25,7 +25,7 @@ public class ApplicationService {
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
 
-    public ApplicationResponse apply(ApplicationRequest request, UUID userId) {  // UUID
+    public ApplicationResponse apply(ApplicationRequest request, UUID userId) {  
         if (applicationRepository.existsByApplicantIdAndJobId(userId, request.getJobId())) {
             throw new IllegalStateException("You have already applied to this job");
         }
@@ -46,7 +46,7 @@ public class ApplicationService {
         return toResponse(applicationRepository.save(application));
     }
 
-    public List<ApplicationResponse> getByApplicant(UUID userId) {  // UUID
+    public List<ApplicationResponse> getByApplicant(UUID userId) {  
         return applicationRepository.findByApplicantId(userId)
             .stream()
             .map(this::toResponse)
@@ -70,7 +70,7 @@ public class ApplicationService {
     private ApplicationResponse toResponse(Application application) {
         return ApplicationResponse.builder()
             .id(application.getId())
-            .applicantId(application.getApplicant().getId())         // UUID
+            .applicantId(application.getApplicant().getId())         
             .applicantUsername(application.getApplicant().getUsername())
             .jobId(application.getJob().getId())
             .jobTitle(application.getJob().getTitle())

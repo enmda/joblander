@@ -24,6 +24,7 @@ public class CandidateRequest {
     private String location;
     private String linkedInUrl;
     private String portfolioUrl;
+    private String resumeUrl;
 
     @Builder.Default
     private List<String> workExperiences = new ArrayList<>();

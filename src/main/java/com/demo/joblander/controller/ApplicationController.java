@@ -23,14 +23,14 @@ public class ApplicationController {
     @PostMapping
     public ResponseEntity<ApplicationResponse> apply(
             @Valid @RequestBody ApplicationRequest request,
-            @RequestParam UUID userId) {           // UUID
+            @RequestParam UUID userId) {           
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(applicationService.apply(request, userId));
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ApplicationResponse>> getByApplicant(
-            @PathVariable UUID userId) {           // UUID
+            @PathVariable UUID userId) {           
         return ResponseEntity.ok(applicationService.getByApplicant(userId));
     }
 

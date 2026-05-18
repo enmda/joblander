@@ -10,13 +10,13 @@ import java.util.UUID;
 
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
-    List<Application> findByApplicantId(UUID userId);       // UUID not Long
+    List<Application> findByApplicantId(UUID userId);       
 
     List<Application> findByJobId(Long jobId);
 
     List<Application> findByStatus(ApplicationStatus status);
 
-    Optional<Application> findByApplicantIdAndJobId(UUID userId, Long jobId);  // UUID
+    Optional<Application> findByApplicantIdAndJobId(UUID userId, Long jobId);  
 
-    boolean existsByApplicantIdAndJobId(UUID userId, Long jobId);              // UUID
+    boolean existsByApplicantIdAndJobId(UUID userId, Long jobId);              
 }

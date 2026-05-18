@@ -4,8 +4,10 @@ import com.demo.joblander.dto.CandidateRequest;
 import com.demo.joblander.dto.CandidateResponse;
 import com.demo.joblander.entity.Candidate;
 import com.demo.joblander.entity.Job;
+import com.demo.joblander.entity.User;
 import com.demo.joblander.repository.CandidateRepository;
 import com.demo.joblander.repository.JobRepository;
+import com.demo.joblander.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,34 @@ public class CandidateService {
 
     private final CandidateRepository candidateRepository;
     private final JobRepository jobRepository;
+    private final UserRepository userRepository;
+
+    public CandidateResponse createCandidate(UUID userId, CandidateRequest request) {
+        if (candidateRepository.existsByUserId(userId)) {
+            throw new IllegalStateException("Candidate profile already exists for this user");
+        }
+
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Candidate candidate = Candidate.builder()
+            .user(user)
+            .headline(request.getHeadline())
+            .summary(request.getSummary())
+            .phone(request.getPhone())
+            .location(request.getLocation())
+            .linkedInUrl(request.getLinkedInUrl())
+            .portfolioUrl(request.getPortfolioUrl())
+            .resumeUrl(request.getResumeUrl())
+            .workExperiences(request.getWorkExperiences())
+            .educations(request.getEducations())
+            .skills(request.getSkills())
+            .languages(request.getLanguages())
+            .certifications(request.getCertifications())
+            .build();
+
+        return toResponse(candidateRepository.save(candidate));
+    }
 
     public CandidateResponse getCandidateById(UUID id) {
         return toResponse(findById(id));
@@ -32,6 +62,7 @@ public class CandidateService {
         candidate.setLocation(request.getLocation());
         candidate.setLinkedInUrl(request.getLinkedInUrl());
         candidate.setPortfolioUrl(request.getPortfolioUrl());
+        candidate.setResumeUrl(request.getResumeUrl());
         candidate.setWorkExperiences(request.getWorkExperiences());
         candidate.setEducations(request.getEducations());
         candidate.setSkills(request.getSkills());
@@ -44,7 +75,6 @@ public class CandidateService {
         candidateRepository.deleteById(id);
     }
 
-    // --- Match Logic ---
     public List<Map<String, Object>> matchJobs(UUID candidateId) {
         Candidate candidate = findById(candidateId);
         List<String> candidateSkills = candidate.getSkills()
@@ -87,7 +117,7 @@ public class CandidateService {
         return result;
     }
 
-    // --- Mapper ---
+    
     public CandidateResponse toResponse(Candidate candidate) {
         return CandidateResponse.builder()
             .id(candidate.getId())

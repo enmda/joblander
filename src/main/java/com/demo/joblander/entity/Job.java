@@ -38,13 +38,13 @@ public class Job {
     @CollectionTable(name = "job_skills", joinColumns = @JoinColumn(name = "job_id"))
     @Column(name = "skill")
     @Builder.Default
-    private List<String> requiredSkills = new ArrayList<>(); // 'JAVA', 'DISCRETE-MATH'
+    private List<String> requiredSkills = new ArrayList<>(); 
 
     @Enumerated(EnumType.STRING)
-    private JobType jobType;          // FULL_TIME, PART_TIME, REMOTE, CONTRACT
+    private JobType jobType;          
 
     @Enumerated(EnumType.STRING)
-    private JobStatus status;         // OPEN, CLOSED
+    private JobStatus status;         
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posted_by")

@@ -30,7 +30,7 @@ public class Application {
     private Job job;
 
     @Enumerated(EnumType.STRING)
-    private ApplicationStatus status;   // PENDING, REVIEWED, ACCEPTED, REJECTED
+    private ApplicationStatus status;   
 
     @Column(columnDefinition = "TEXT")
     private String coverLetter;
