@@ -6,9 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "candidates")
@@ -27,8 +25,8 @@ public class Candidate {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    // Personal
-    private String headline;        // "Senior Java Developer"
+    
+    private String headline;        
 
     @Column(columnDefinition = "TEXT")
     private String summary;
@@ -37,17 +35,17 @@ public class Candidate {
     private String location;
     private String linkedInUrl;
     private String portfolioUrl;
-    private String resumeUrl;       // S3/storage path for raw PDF
+    private String resumeUrl;       
 
-    // CV sections as plain strings
-    // e.g. "Software Engineer at Google (2020-2023) - Built distributed systems"
+    
+    
     @ElementCollection
     @CollectionTable(name = "candidate_experiences", joinColumns = @JoinColumn(name = "candidate_id"))
     @Column(name = "experience", columnDefinition = "TEXT")
     @Builder.Default
     private List<String> workExperiences = new ArrayList<>();
 
-    // e.g. "B.Sc. Computer Science, MIT, 2016-2020"
+    
     @ElementCollection
     @CollectionTable(name = "candidate_educations", joinColumns = @JoinColumn(name = "candidate_id"))
     @Column(name = "education")
@@ -58,15 +56,15 @@ public class Candidate {
     @CollectionTable(name = "candidate_skills", joinColumns = @JoinColumn(name = "candidate_id"))
     @Column(name = "skill")
     @Builder.Default
-    private List<String> skills = new ArrayList<>();
+    private Set<String> skills = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "candidate_languages", joinColumns = @JoinColumn(name = "candidate_id"))
     @Column(name = "language")
     @Builder.Default
-    private List<String> languages = new ArrayList<>();
+    private Set<String> languages = new HashSet<>();
 
-    // e.g. "AWS Certified Solutions Architect, Amazon, 2022"
+    
     @ElementCollection
     @CollectionTable(name = "candidate_certifications", joinColumns = @JoinColumn(name = "candidate_id"))
     @Column(name = "certification")

@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -24,10 +26,16 @@ public class CandidateRequest {
     private String location;
     private String linkedInUrl;
     private String portfolioUrl;
+    private String resumeUrl;
 
+    @Builder.Default
     private List<String> workExperiences = new ArrayList<>();
+    @Builder.Default
     private List<String> educations = new ArrayList<>();
-    private List<String> skills = new ArrayList<>();
-    private List<String> languages = new ArrayList<>();
+    @Builder.Default
+    private Set<String> skills = new HashSet<>();
+    @Builder.Default
+    private Set<String> languages = new HashSet<>();
+    @Builder.Default
     private List<String> certifications = new ArrayList<>();
 }

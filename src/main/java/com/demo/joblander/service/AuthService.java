@@ -34,7 +34,7 @@ public class AuthService {
     @Value("${app.jwt.refresh-token-expiry}")
     private long refreshTokenExpiry;
 
-    public AuthResponse register(RegisterRequest req) {
+    public void register(RegisterRequest req) {
         if (userRepository.existsByUsername(req.getUsername()))
             throw new RuntimeException("Username already taken");
         if (userRepository.existsByEmail(req.getEmail()))
@@ -48,7 +48,6 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
-        return buildAuthResponse(user);
     }
 
     public AuthResponse login(LoginRequest req) {
@@ -58,7 +57,7 @@ public class AuthService {
         User user = userRepository.findByUsername(req.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Invalidate old refresh tokens
+        
         refreshTokenRepository.deleteByUser(user);
 
         return buildAuthResponse(user);
@@ -78,7 +77,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .accessToken(newAccessToken)
-                .refreshToken(token) // reuse same refresh token
+                .refreshToken(token) 
                 .username(user.getUsername())
                 .roles(user.getRoles().stream().map(Role::name).collect(Collectors.toSet()))
                 .build();

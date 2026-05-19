@@ -4,13 +4,14 @@ import com.demo.joblander.entity.enums.JobStatus;
 import com.demo.joblander.entity.enums.JobType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "jobs")
@@ -35,13 +36,17 @@ public class Job {
     private String location;
     private String salary;
 
-    private List<String> requiredSkills = new ArrayList<>(); // 'JAVA', 'DISCRETE-MATH'
+    @ElementCollection
+    @CollectionTable(name = "job_skills", joinColumns = @JoinColumn(name = "job_id"))
+    @Column(name = "skill")
+    @Builder.Default
+    private Set<String> requiredSkills = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
-    private JobType jobType;          // FULL_TIME, PART_TIME, REMOTE, CONTRACT
+    private JobType jobType;          
 
     @Enumerated(EnumType.STRING)
-    private JobStatus status;         // OPEN, CLOSED
+    private JobStatus status;         
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posted_by")
