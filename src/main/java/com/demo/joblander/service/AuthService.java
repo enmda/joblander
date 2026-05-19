@@ -34,7 +34,7 @@ public class AuthService {
     @Value("${app.jwt.refresh-token-expiry}")
     private long refreshTokenExpiry;
 
-    public AuthResponse register(RegisterRequest req) {
+    public void register(RegisterRequest req) {
         if (userRepository.existsByUsername(req.getUsername()))
             throw new RuntimeException("Username already taken");
         if (userRepository.existsByEmail(req.getEmail()))
@@ -48,7 +48,6 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
-        return buildAuthResponse(user);
     }
 
     public AuthResponse login(LoginRequest req) {

@@ -2,11 +2,14 @@ package com.demo.joblander.controller;
 
 import com.demo.joblander.dto.CandidateRequest;
 import com.demo.joblander.dto.CandidateResponse;
+import com.demo.joblander.entity.User;
 import com.demo.joblander.service.CandidateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,10 +25,11 @@ public class CandidateController {
 
     @PostMapping
     public ResponseEntity<CandidateResponse> create(
-            @RequestParam UUID userId,
+            @AuthenticationPrincipal User userDetails,
             @Valid @RequestBody CandidateRequest request) {
+        UUID userid = userDetails.getId();
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(candidateService.createCandidate(userId, request));
+            .body(candidateService.createCandidate(userid, request));
     }
 
     @GetMapping("/{id}")

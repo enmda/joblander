@@ -2,11 +2,13 @@ package com.demo.joblander.controller;
 
 import com.demo.joblander.dto.JobRequest;
 import com.demo.joblander.dto.JobResponse;
+import com.demo.joblander.entity.User;
 import com.demo.joblander.service.JobService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +24,10 @@ public class JobController {
     @PostMapping
     public ResponseEntity<JobResponse> create(
             @Valid @RequestBody JobRequest request,
-            @RequestParam UUID userId) {          
+            @AuthenticationPrincipal User userDetails) {
+        UUID userid = userDetails.getId();
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(jobService.createJob(request, userId));
+            .body(jobService.createJob(request, userid));
     }
 
     @GetMapping
