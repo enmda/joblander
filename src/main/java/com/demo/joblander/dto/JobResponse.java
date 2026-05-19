@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -18,7 +18,7 @@ public class JobResponse {
     private String company;
     private String location;
     private String salary;
-    private List<String> requiredSkills;
+    private Set<String> requiredSkills;
     private JobType jobType;
     private JobStatus status;
     private UUID postedById;         

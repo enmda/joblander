@@ -6,9 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "candidates")
@@ -58,13 +56,13 @@ public class Candidate {
     @CollectionTable(name = "candidate_skills", joinColumns = @JoinColumn(name = "candidate_id"))
     @Column(name = "skill")
     @Builder.Default
-    private List<String> skills = new ArrayList<>();
+    private Set<String> skills = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "candidate_languages", joinColumns = @JoinColumn(name = "candidate_id"))
     @Column(name = "language")
     @Builder.Default
-    private List<String> languages = new ArrayList<>();
+    private Set<String> languages = new HashSet<>();
 
     
     @ElementCollection

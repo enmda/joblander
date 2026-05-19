@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,8 +21,8 @@ public class CandidateResponse {
     private String resumeUrl;
     private List<String> workExperiences;
     private List<String> educations;
-    private List<String> skills;
-    private List<String> languages;
+    private Set<String> skills;
+    private Set<String> languages;
     private List<String> certifications;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
