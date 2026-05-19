@@ -77,24 +77,19 @@ public class CandidateService {
 
     public List<Map<String, Object>> matchJobs(UUID candidateId) {
         Candidate candidate = findById(candidateId);
-        List<String> candidateSkills = candidate.getSkills()
-            .stream()
-            .map(String::toLowerCase)
-            .collect(Collectors.toList());
+        List<String> candidateSkills = normalizeSkills(candidate.getSkills());
+        Set<String> candidateSkillSet = new HashSet<>(candidateSkills);
 
         return jobRepository.findAll()
             .stream()
-            .map(job -> buildMatchResult(job, candidateSkills))
+            .map(job -> buildMatchResult(job, candidateSkillSet))
             .sorted((a, b) ->
                 Integer.compare((int) b.get("matchScore"), (int) a.get("matchScore")))
             .collect(Collectors.toList());
     }
 
-    private Map<String, Object> buildMatchResult(Job job, List<String> candidateSkills) {
-        List<String> required = job.getRequiredSkills()
-            .stream()
-            .map(String::toLowerCase)
-            .collect(Collectors.toList());
+    private Map<String, Object> buildMatchResult(Job job, Set<String> candidateSkills) {
+        List<String> required = normalizeSkills(job.getRequiredSkills());
 
         List<String> matched = required.stream()
             .filter(candidateSkills::contains)
@@ -115,6 +110,21 @@ public class CandidateService {
         result.put("matchedSkills", matched);
         result.put("missingSkills", missing);
         return result;
+    }
+
+    private List<String> normalizeSkills(List<String> skills) {
+        if (skills == null) {
+            return Collections.emptyList();
+        }
+
+        return skills.stream()
+            .filter(Objects::nonNull)
+            .flatMap(skill -> Arrays.stream(skill.split(",")))
+            .map(String::trim)
+            .map(String::toLowerCase)
+            .filter(s -> !s.isEmpty())
+            .distinct()
+            .collect(Collectors.toList());
     }
 
     
