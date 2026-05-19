@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -31,9 +33,9 @@ public class CandidateRequest {
     @Builder.Default
     private List<String> educations = new ArrayList<>();
     @Builder.Default
-    private List<String> skills = new ArrayList<>();
+    private Set<String> skills = new HashSet<>();
     @Builder.Default
-    private List<String> languages = new ArrayList<>();
+    private Set<String> languages = new HashSet<>();
     @Builder.Default
     private List<String> certifications = new ArrayList<>();
 }

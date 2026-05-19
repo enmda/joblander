@@ -9,7 +9,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "jobs")
@@ -38,7 +40,7 @@ public class Job {
     @CollectionTable(name = "job_skills", joinColumns = @JoinColumn(name = "job_id"))
     @Column(name = "skill")
     @Builder.Default
-    private List<String> requiredSkills = new ArrayList<>(); 
+    private Set<String> requiredSkills = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private JobType jobType;          

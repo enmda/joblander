@@ -77,8 +77,7 @@ public class CandidateService {
 
     public List<Map<String, Object>> matchJobs(UUID candidateId) {
         Candidate candidate = findById(candidateId);
-        List<String> candidateSkills = normalizeSkills(candidate.getSkills());
-        Set<String> candidateSkillSet = new HashSet<>(candidateSkills);
+        Set<String> candidateSkillSet = normalizeSkills(candidate.getSkills());
 
         return jobRepository.findAll()
             .stream()
@@ -89,15 +88,15 @@ public class CandidateService {
     }
 
     private Map<String, Object> buildMatchResult(Job job, Set<String> candidateSkills) {
-        List<String> required = normalizeSkills(job.getRequiredSkills());
+        Set<String> required = normalizeSkills(job.getRequiredSkills());
 
-        List<String> matched = required.stream()
+        Set<String> matched = required.stream()
             .filter(candidateSkills::contains)
-            .collect(Collectors.toList());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        List<String> missing = required.stream()
+        Set<String> missing = required.stream()
             .filter(s -> !candidateSkills.contains(s))
-            .collect(Collectors.toList());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
 
         int score = required.isEmpty() ? 0 : (matched.size() * 100 / required.size());
 
@@ -112,9 +111,9 @@ public class CandidateService {
         return result;
     }
 
-    private List<String> normalizeSkills(List<String> skills) {
+    private Set<String> normalizeSkills(Collection<String> skills) {
         if (skills == null) {
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
 
         return skills.stream()
@@ -123,8 +122,7 @@ public class CandidateService {
             .map(String::trim)
             .map(String::toLowerCase)
             .filter(s -> !s.isEmpty())
-            .distinct()
-            .collect(Collectors.toList());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     

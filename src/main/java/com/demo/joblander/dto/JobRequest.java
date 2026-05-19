@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 
@@ -22,7 +22,7 @@ public class JobRequest {
     private String location;
     private String salary;
 
-    private List<String> requiredSkills = new ArrayList<>();
+    private Set<String> requiredSkills = new HashSet<>();
 
     private JobType jobType;
 
