@@ -9,6 +9,7 @@ import com.demo.joblander.entity.User;
 import com.demo.joblander.repository.RefreshTokenRepository;
 import com.demo.joblander.repository.UserRepository;
 import com.demo.joblander.security.JwtService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,6 +51,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
+    @Transactional
     public AuthResponse login(LoginRequest req) {
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
